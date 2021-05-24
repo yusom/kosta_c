@@ -6,27 +6,28 @@ Q.정수 형태의 문자열을 사용자로부터 입력 받는다. 입력 시 각 숫자의 숫자 사이에 '
 
 #include<stdio.h>
 #include<string.h>
-#include<stdlib.h>
 
 int main(void)
 {
-	char str[100];
+	FILE* file; 
+	char buf[256];
+	memset(buf, 0, 256);
+	printf("문자열을 입력하시오: ");
 
-	puts("문자열을 입력하시오.");
-	fgets(str, sizeof(str), stdin);
-	char strSeparate[] = ",";
-	char* strPos = NULL;
-	char* context = NULL;
-	int total = 0;
+	fgets(buf, sizeof(buf), stdin);
 
-	strPos = strtok_s(str, ",", &context);
+	fopen_s(&file, "c:\\Temp.txt", "wt");
 
-	while (strPos!=NULL)
+	if(file == NULL)
 	{
-		total += atoi(strPos);
-		strPos = strtok_s(NULL, ",", &context);
+		printf("파일이 존재하지 않습니다.\n");
 	}
-	printf("문자열의 각 요소의 합은 %d입니다.\n", total);
+	else
+	{
+		fwrite(buf, 1, 256, file);
+		printf("버퍼의 내용이 파일에 쓰여졌습니다.\n");
+		fclose(file);
+	}
 	return 0;
 }
 	
